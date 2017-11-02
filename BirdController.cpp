@@ -18,11 +18,6 @@ BirdController::BirdController(GameObject* gameObject) : Component(gameObject)
 	// initiate bird physics
 }
 
-void BirdController::init(BirdGame* bird)
-{
-	birdGame = bird;
-}
-
 bool BirdController::onKey(SDL_Event& event)
 {
 	if (event.key.keysym.sym != SDLK_SPACE) return false;
@@ -41,7 +36,7 @@ void BirdController::onCollisionStart(PhysicsComponent* comp)
 {
 	if (comp->getGameObject()->name == "Wall bottom" || comp->getGameObject()->name == "Wall top")
 	{
-		birdGame->setGameState(GameState::GameOver);
+		BirdGame::instance->setGameState(GameState::GameOver);
 	}
 }
 

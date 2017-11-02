@@ -65,7 +65,6 @@ void BirdGame::init()
 	phys->initCircle(b2_dynamicBody, 10 / physicsScale,
 	                 {birdObj->getPosition().x / physicsScale,birdObj->getPosition().y / physicsScale}, 1);
 	auto birdC = birdObj->addComponent<BirdController>();
-	birdC->init(this);
 
 	std::vector<Sprite> spriteAnim({
 		spriteAtlas->get("bird1.png"),spriteAtlas->get("bird2.png"),spriteAtlas->get("bird3.png"),
