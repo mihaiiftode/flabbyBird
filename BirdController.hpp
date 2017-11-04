@@ -14,7 +14,8 @@ public:
 	void onCollisionStart(PhysicsComponent* comp) override;
 
 	void onCollisionEnd(PhysicsComponent* comp) override;
-
+    
+    int score = 0;
 private:
 	const float velocityX = 1;
 	const float impulseY = 0.1f;

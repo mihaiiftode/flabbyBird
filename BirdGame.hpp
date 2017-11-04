@@ -28,6 +28,8 @@ public:
 
     static BirdGame* instance;
 
+    void Destroy(GameObject* obj);
+
     void setGameState(GameState newState);
 private:
     sre::SDLRenderer r;
