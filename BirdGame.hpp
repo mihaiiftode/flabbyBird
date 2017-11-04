@@ -49,6 +49,8 @@ private:
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 
     std::vector<std::shared_ptr<GameObject>> sceneObjects;
+
+    std::vector<GameObject*> queueDeletion;
     BackgroundComponent background1Component;
     BackgroundComponent background2Component;
 

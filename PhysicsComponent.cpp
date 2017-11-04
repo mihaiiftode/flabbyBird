@@ -35,6 +35,24 @@ void PhysicsComponent::setLinearVelocity(glm::vec2 velocity) {
     body->SetLinearVelocity(v);
 }
 
+PhysicsComponent::~PhysicsComponent()
+{
+    BirdGame::instance->deregisterPhysicsComponent(this);
+
+    delete polygon;
+    delete circle;
+    if(body != nullptr && fixture != nullptr)
+    {
+        body->DestroyFixture(fixture);
+        fixture = nullptr;
+    }
+    if(world != nullptr && body != nullptr)
+    {
+        world->DestroyBody(body);
+        body = nullptr;
+    }
+}
+
 void PhysicsComponent::initCircle(b2BodyType type, float radius, glm::vec2 center, float density) {
     assert(body == nullptr);
     // do init

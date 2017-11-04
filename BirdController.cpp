@@ -34,16 +34,16 @@ bool BirdController::onKey(SDL_Event& event)
 
 void BirdController::onCollisionStart(PhysicsComponent* comp)
 {
+    if(comp->getGameObject()->name == "Wall bottom" || comp->getGameObject()->name == "Wall top")
+    {
+        BirdGame::instance->setGameState(GameState::GameOver);
+    }
     if(comp->getGameObject()->name == "Coin")
     {
         ++score;
         printf("Score: %i \r\n",score);
-        //BirdGame::instance->Destroy(comp->getGameObject());
+        BirdGame::instance->Destroy(comp->getGameObject());
     }
-	if (comp->getGameObject()->name == "Wall bottom" || comp->getGameObject()->name == "Wall top")
-	{
-		BirdGame::instance->setGameState(GameState::GameOver);
-	}
 }
 
 void BirdController::onCollisionEnd(PhysicsComponent* comp)

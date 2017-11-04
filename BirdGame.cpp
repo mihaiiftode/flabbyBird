@@ -38,7 +38,14 @@ BirdGame::BirdGame()
 
 void BirdGame::init()
 {
+    if(world != nullptr)
+    {
+        world->SetContactListener(nullptr);
+    }
+    camera.reset();
+
     sceneObjects.clear();
+    queueDeletion.clear();
     physicsComponentLookup.clear();
     initPhysics();
     auto camObj = createGameObject();
@@ -151,15 +158,31 @@ void BirdGame::init()
 
 void BirdGame::update(float time)
 {
+
     if(gameState == GameState::Running)
     {
         updatePhysics();
     }
     for(int i = sceneObjects.size() - 1; i >= 0; i--)
     {
-
         sceneObjects[i]->update(time);
+    }
 
+    for(int i = sceneObjects.size() - 1; i >= 0; i--)
+    {
+        if(queueDeletion.size() > 0)
+        {
+            bool found = false;
+            for(int j = queueDeletion.size() - 1; !found && j >= 0; j--)
+            {
+                if(queueDeletion[j] == sceneObjects[i].get())
+                {
+                    sceneObjects[i].get()->setPosition(glm::vec2(sceneObjects[i].get()->getPosition().x,99999));
+                    queueDeletion.erase(queueDeletion.begin() + j);
+                    found = true;
+                }
+            }
+        }
     }
 }
 
@@ -354,15 +377,7 @@ void BirdGame::handleContact(b2Contact* contact, bool begin)
 
 void BirdGame::Destroy(GameObject* obj)
 {
-    bool found = false;
-    for(int i = 0; found != true && i < sceneObjects.size(); i++)
-    {
-        if(sceneObjects[i].get() == obj)
-        {
-            sceneObjects.erase(sceneObjects.begin() + i);
-            found = true;
-        }
-    }
+    queueDeletion.push_back(obj);
 }
 
 void BirdGame::setGameState(GameState newState)
